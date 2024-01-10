@@ -9,32 +9,31 @@ This repository is an attempt to join historical usage patterns with weather dat
 ## Work done
 * Data:
     * Input: train.csv file
-         * datetime: hourly date + timestamp  
+         * datetime: hourly date + timestamp
+         * holiday: if a day is considered a holiday  
          * season:  1 = spring, 2 = summer, 3 = fall, 4 = winter 
-         * holiday: whether the day is considered a holiday
-         * workingday:  whether the day is neither a weekend nor holiday
+         * workingday:  the day is neither a weekend nor holiday
          * weather: 1: Clear, Few clouds, Partly cloudy, Partly cloudy, 2: Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist, 3: Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds, 4: Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog 
-         * temp: temperature in Celsius
-         * atemp: "feels like" temperature in Celsius
-         * humidity: relative humidity
-         * windspeed: wind speed
+         * temp: in Celsius
+         * atemp: "feels like" temp in Celsius
+         * humidity: its humidity
+         * windspeed: speed of wind
          * casual: number of non-registered user rentals initiated
          * registered: number of registered user rentals initiated
          * count: number of total rentals
   * Size: 1.12 MB
-  * We are provided hourly rental data spanning two years. The training set is comprised of the first 19 days of each month, while the test set is from the 20th to the end of the month.
+  * Hourly rental data are provided spanning two years. The training set is comprised of the first 19 days of each month, while the test set is from the 20th to the end of the month.
        * 6493 instances in test.csv
        * 10886 instances in train.csv
        * 6493 instances in submission.csv 
 ## Clean Up
 1) Feature Engineering:
-   * Created new features from the "datetime" column, such as "date," "hour," "weekday," "month," and mapped "season" and "weather" values to descriptive categories
-   * Converted categorical variables ("hour," "weekday," "month," "season," "weather," "holiday," "workingday") to the category data type
+   * Added new features from the "datetime" column, being "date", "hour", "weekday", "month", and mapped "season" and "weather" to descriptive categories. Those variables were converted to the category data type
 
 2) Data Visualization:
-   * Plotted a matrix of missing values using msno.matrix to visualize the completeness of the data
-   * Created subplots for box plots to visualize the distribution of the target variable "count" across different features
-   * Box plots were created for "count" alone, "count" across seasons, "count" across hours of the day, and "count" across working days
+   * Plot matrix of the missing values by using msno.matrix to see the completness of the data
+   * Subplots for box plots to visualize the distribution of the target variable "count" across different features
+   * Box plots for "count" which are the total number of rentals alone, "count" across seasons, "count" across hours of the day, and "count" across working days
 
 3) Outlier Removal:
    * Detected and removed outliers using the criteria that the absolute difference between "count" and its mean should be within three times the stand dev
@@ -42,13 +41,11 @@ This repository is an attempt to join historical usage patterns with weather dat
    * The original dataset had a shape of (10886, 15), and after removing outliers, the shape became (10739, 15).
 ## Data Visualization
 * Correlation Matrix
-   1) Temperature and Humidity Correlation:
-          Temperature ("temp") has a positive correlation with the target variable "count," while humidity has a negative correlation.
+   1) Temperature/Humidity Correlation: "temp" has a positive correlation with the target variable "count" and humidity has a negative correlation.
         
-   2) Windspeed:
-           The correlation suggests that "count" and windspeed are not strongly related.
+   2) Windspeed: The correlation says that "count" and windspeed are not really related.
            
-   3) Atemp and temp Multicollinearity:
+   3) Atemp/temp Multicollinearity:
             "atemp" is not considered since it has a strong correlation with "temp."
             "atemp" or "temp" should be dropped.
 ** Box Plots
@@ -58,7 +55,7 @@ This repository is an attempt to join historical usage patterns with weather dat
    
    3)  Outliers and Working Days: Most of the outlier points are contributed by "Working Day" rather than "Non-Working Day" and can be seen evidently in Figure 4.
 ## Problem Formulation
-  * Input: Hourly rental data spanning two years, including features such as datetime, season, holiday, workingday, weather, temperature, humidity, windspeed, etc.
+  * Input: Hourly rental data spanning two years, including features such as "datetime", "season", "holiday", "workingday", "weather", "temperature", "humidity", "windspeed", etc.
   * Output: Prediction of the total count of bikes rented during each hour covered by the test set.
  ** Models:
  1) Linear Regression:
@@ -78,18 +75,14 @@ This repository is an attempt to join historical usage patterns with weather dat
         * Loss: Mean Squared Logarithmic Error (RMSLE).
         * Optimizer: Not applicable (ensemble method).
 
-4) Gradient Boosting:
-     Ensemble model building trees sequentially, with each tree correcting the errors of the previous one
-     Applied for its robustness and ability to improve predictive accuracy by sequentially minimizing errors
-         * Loss: Mean Squared Logarithmic Error (RMSLE).
-         * Optimizer: Gradient Boosting (ensemble method).
 ## Training
-  * Overfitting: Used techniques like regularization to address overfitting.
+  * Overfitting: Regularization to address overfitting.
   * Hyperparameter Tuning: Grid search was used.
   * Data Quality: Addressed issues like missing or inconsistent data through preprocessing.
 ** Key Performance Metric: Root Mean Squared Logarithmic Error (RMSLE)
 ## Conclusion
-* In the context of bike-sharing demand prediction, the model that worked best was the random forest, with a RMSLE value of 0.104. The model's ability to capture complex patterns in the data implies that it can effectively identify peak usage times when the demand for bikes is the highest. This information is valuable for bike-sharing service providers to ensure they have a sufficient number of bikes available during high-demand periods.
+* In the context of bike-sharing demand prediction, the model that worked best was the random forest, with a RMSLE value of 0.104. The model's way to capture complex patterns in the data implies that it can effectively identify peak usage times when the demand for bikes is the highest. This is important to bike-sharing service providers to make sure they have enough bikes available during high-demand times.
 ## Future Work
-* Explore additional features or combinations of features like incorporating external data sources, such as weather forecasts or events happening in the area
-* Identify patterns and trends within the data to understand how the bike rental count changes over time, whether there are regular ups and downs, and if there are any seasonal variations.
+* Explore additional combinations of features like incorporating external data sources, such as events happening in the area
+## Citations
+https://www.kaggle.com/c/bike-sharing-demand 
