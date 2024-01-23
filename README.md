@@ -5,7 +5,7 @@ This repository is an attempt to join historical usage patterns with weather dat
 * The analysis is divided into two parts:
     * the initial exploration focuses on discovering patterns between variables
     * the second part delves into model building, dealing with basic regression to methods such as ridge/lasso regression, random forest and gradient boosting methods.
-* The model that emerged the most effective was the random forest model, with an RMSLE value of 0.1040. For my submission, the RMSLE score obtained was 0.43499, and the top-performing model on Kaggle had a RMSLE score of 0.33756.
+
 ## Work done
 * Data:
     * Input: train.csv file
